@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WanderFive — Type a place. Get 5 worth visiting.</title>
+<meta name="description" content="WanderFive turns any location into 5 curated places worth visiting, instantly. No sign-up, no tabs, no ad-choked review pages.">
+<meta property="og:title" content="WanderFive — Type a place. Get 5 worth visiting.">
+<meta property="og:description" content="Skip the tabs. Get an instant, honest shortlist of 5 places to visit anywhere.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { colors: {
+    terra: { DEFAULT: '#c2542c', hover: '#a8461f', soft: '#fbe9e1' },
+    teal: { DEFAULT: '#12716b', soft: '#e3f3f1' },
+  } } } }
+</script>
+<style>body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif}</style>
+</head>
+<body class="bg-[#f7f8fa] text-[#101828]">
+
+<nav class="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-gray-200">
+  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#hero" class="font-extrabold text-lg flex items-center gap-2">🧭 WanderFive</a>
+    <div class="hidden sm:flex gap-6 text-sm font-medium text-gray-600">
+      <a href="#features" class="hover:text-terra">Features</a>
+      <a href="#faq" class="hover:text-terra">FAQ</a>
+      <a href="#social" class="hover:text-terra">Social</a>
+    </div>
+    <a href="#hero" class="bg-terra hover:bg-terra-hover text-white text-sm font-semibold px-4 py-2 rounded-lg">Try It Now</a>
+  </div>
+</nav>
+
+<section id="hero" class="max-w-3xl mx-auto px-6 pt-20 pb-16 text-center">
+  <span class="inline-block text-xs font-bold tracking-widest uppercase text-teal bg-teal-soft px-3 py-1 rounded-full mb-6">WanderFive</span>
+  <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-br from-[#101828] to-teal bg-clip-text text-transparent">Type a place. Get 5 worth visiting.</h1>
+  <h2 class="text-lg text-gray-600 mb-8">No tabs, no accounts, no scrolling — just a fast, honest shortlist.</h2>
+  <ul class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-8 text-sm font-medium text-gray-700 mb-8">
+    <li>✓ Skip the 20-min research spiral</li>
+    <li>✓ 5 places, not 200 pins</li>
+    <li>✓ Works for anywhere</li>
+  </ul>
+  <a href="#" class="inline-block bg-terra hover:bg-terra-hover text-white font-semibold px-8 py-3 rounded-xl shadow-lg shadow-terra-soft">Try It Now</a>
+  <p class="text-xs text-gray-400 mt-3">No sign-up. No cost. No data stored.</p>
+</section>
+
+<section id="features" class="max-w-5xl mx-auto px-6 py-16">
+  <h2 class="text-2xl font-bold text-center mb-10">Why WanderFive</h2>
+  <div class="grid sm:grid-cols-3 gap-6">
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+      <div class="text-2xl mb-3">⚡</div>
+      <h3 class="font-semibold mb-2">Instant Shortlist</h3>
+      <p class="text-sm text-gray-600">Type any city, town, or landmark and get exactly 5 places worth seeing — no scrolling through review pages to find them.</p>
+    </div>
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+      <div class="text-2xl mb-3">🤝</div>
+      <h3 class="font-semibold mb-2">Honest About Its Limits</h3>
+      <p class="text-sm text-gray-600">When a location is obscure or made up, WanderFive says so and gives general pointers instead of pretending to know a place it doesn't.</p>
+    </div>
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+      <div class="text-2xl mb-3">🚫</div>
+      <h3 class="font-semibold mb-2">Zero Setup</h3>
+      <p class="text-sm text-gray-600">No account, no API key, nothing to configure — open it and search.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="max-w-3xl mx-auto px-6 py-16">
+  <h2 class="text-2xl font-bold text-center mb-8">Frequently asked</h2>
+  <div class="space-y-3">
+    <details class="bg-white border border-gray-200 rounded-xl p-4" open>
+      <summary class="font-semibold cursor-pointer">What does WanderFive actually do?</summary>
+      <p class="text-sm text-gray-600 mt-2">You type a location, it returns 5 places worth visiting there, each with a short description — no maps, no bookings, no reviews.</p>
+    </details>
+    <details class="bg-white border border-gray-200 rounded-xl p-4">
+      <summary class="font-semibold cursor-pointer">Who is this NOT for?</summary>
+      <p class="text-sm text-gray-600 mt-2">Anyone who needs live hours, prices, or bookable itineraries — this is a shortlist tool, not a trip-planning suite.</p>
+    </details>
+    <details class="bg-white border border-gray-200 rounded-xl p-4">
+      <summary class="font-semibold cursor-pointer">How is this different from just Googling it?</summary>
+      <p class="text-sm text-gray-600 mt-2">It skips the ad-heavy list pages and gives you exactly 5 curated picks in one search instead of 200 unranked results.</p>
+    </details>
+    <details class="bg-white border border-gray-200 rounded-xl p-4">
+      <summary class="font-semibold cursor-pointer">Does it store my searches?</summary>
+      <p class="text-sm text-gray-600 mt-2">No — WanderFive is fully stateless. Nothing about your search is saved anywhere.</p>
+    </details>
+  </div>
+</section>
+
+<section id="social" class="max-w-4xl mx-auto px-6 py-16">
+  <h2 class="text-2xl font-bold text-center mb-8">Spread the word</h2>
+  <div class="grid sm:grid-cols-3 gap-4 text-sm">
+    <div class="bg-white border border-gray-200 rounded-xl p-4">
+      <div class="text-xs font-bold text-teal uppercase mb-2">Twitter / X</div>
+      <p class="text-gray-700">"Stop opening 6 tabs to figure out what to see in a new city. Type it into WanderFive, get 5 solid picks, done. #travel #traveltech"</p>
+    </div>
+    <div class="bg-white border border-gray-200 rounded-xl p-4">
+      <div class="text-xs font-bold text-teal uppercase mb-2">LinkedIn</div>
+      <p class="text-gray-700">"Launched WanderFive this week — a one-search shortlist tool for '5 places to visit in X.' No accounts, no tabs, no ad-choked review pages."</p>
+    </div>
+    <div class="bg-white border border-gray-200 rounded-xl p-4">
+      <div class="text-xs font-bold text-teal uppercase mb-2">Instagram</div>
+      <p class="text-gray-700">"POV: you land somewhere new and have zero plan. [Hook] One search later — 5 places, sorted. Try it free, link in bio."</p>
+    </div>
+  </div>
+</section>
+
+<footer id="footer" class="border-t border-gray-200 py-10 text-center text-sm text-gray-400">
+  <div class="font-bold text-gray-700 mb-1">🧭 WanderFive</div>
+  <div class="mb-2">Type a place. Get 5 worth visiting.</div>
+  <div>&copy; 2026 WanderFive. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
