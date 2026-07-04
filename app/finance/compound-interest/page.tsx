@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { Field, Select } from "@/components/Field";
 import { ResultPanel } from "@/components/ResultPanel";
+import { ErrorMessage } from "@/components/ErrorMessage";
 import { domainStyles } from "@/lib/domain-styles";
 import { findCalculator } from "@/lib/domains";
 
@@ -29,6 +30,18 @@ export default function CompoundInterestPage() {
   const [years, setYears] = useState("10");
   const [contribution, setContribution] = useState("100");
   const [frequency, setFrequency] = useState("Monthly");
+
+  const error = useMemo(() => {
+    const p = parseFloat(principal);
+    const annualRate = parseFloat(rate);
+    const t = parseFloat(years);
+    const c = parseFloat(contribution);
+    if (!principal.trim() || !Number.isFinite(p) || p < 0) return "Enter a starting amount of 0 or more.";
+    if (!contribution.trim() || !Number.isFinite(c) || c < 0) return "Enter a monthly contribution of 0 or more.";
+    if (!rate.trim() || !Number.isFinite(annualRate) || annualRate < 0) return "Enter an interest rate of 0 or more.";
+    if (!years.trim() || !Number.isFinite(t) || t <= 0) return "Enter a time horizon greater than 0 years.";
+    return null;
+  }, [principal, rate, years, contribution]);
 
   const { futureValue, totalContributed, totalGrowth } = useMemo(() => {
     const p = parseFloat(principal) || 0;
@@ -65,6 +78,7 @@ export default function CompoundInterestPage() {
             value={principal}
             onChange={(e) => setPrincipal(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
           <Field
             label="Monthly contribution"
@@ -72,6 +86,7 @@ export default function CompoundInterestPage() {
             value={contribution}
             onChange={(e) => setContribution(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
           <Field
             label="Annual interest rate"
@@ -79,6 +94,7 @@ export default function CompoundInterestPage() {
             value={rate}
             onChange={(e) => setRate(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
           <Field
             label="Time horizon"
@@ -86,6 +102,7 @@ export default function CompoundInterestPage() {
             value={years}
             onChange={(e) => setYears(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
           <Select label="Compounding frequency" value={frequency} onChange={(e) => setFrequency(e.target.value)} className={style.ring}>
             {Object.keys(FREQUENCIES).map((f) => (
@@ -97,14 +114,18 @@ export default function CompoundInterestPage() {
         </div>
 
         <div className="flex flex-col justify-center">
-          <ResultPanel
-            gradient={style.gradient}
-            stats={[
-              { label: "Future value", value: `$${formatCurrency(futureValue)}`, primary: true },
-              { label: "Total contributed", value: `$${formatCurrency(totalContributed)}` },
-              { label: "Growth earned", value: `$${formatCurrency(totalGrowth)}` },
-            ]}
-          />
+          {error ? (
+            <ErrorMessage>{error}</ErrorMessage>
+          ) : (
+            <ResultPanel
+              gradient={style.gradient}
+              stats={[
+                { label: "Future value", value: `$${formatCurrency(futureValue)}`, primary: true },
+                { label: "Total contributed", value: `$${formatCurrency(totalContributed)}` },
+                { label: "Growth earned", value: `$${formatCurrency(totalGrowth)}` },
+              ]}
+            />
+          )}
         </div>
       </div>
     </CalculatorShell>

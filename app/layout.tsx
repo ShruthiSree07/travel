@@ -31,6 +31,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-neutral-50 dark:bg-neutral-950">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-indigo-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        >
+          Skip to content
+        </a>
         <header className="sticky top-0 z-20 border-b border-neutral-200/80 bg-white/80 backdrop-blur dark:border-neutral-800/80 dark:bg-neutral-950/80">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3.5">
             <Link href="/" className="flex items-center gap-2 font-bold text-neutral-900 dark:text-white">
@@ -41,7 +47,9 @@ export default function RootLayout({
             </Link>
           </div>
         </header>
-        <main className="flex flex-1 flex-col">{children}</main>
+        <main id="main-content" className="flex flex-1 flex-col">
+          {children}
+        </main>
       </body>
     </html>
   );

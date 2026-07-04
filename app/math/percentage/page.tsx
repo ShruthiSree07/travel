@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { Field } from "@/components/Field";
 import { ResultPanel } from "@/components/ResultPanel";
+import { ErrorMessage } from "@/components/ErrorMessage";
 import { domainStyles } from "@/lib/domain-styles";
 import { findCalculator } from "@/lib/domains";
 
@@ -24,6 +25,26 @@ export default function PercentagePage() {
 
   const [partValue, setPartValue] = useState("30");
   const [wholeValue, setWholeValue] = useState("120");
+
+  const percentOfError = useMemo(() => {
+    if (!percent.trim() || !Number.isFinite(parseFloat(percent))) return "Enter a numeric percent.";
+    if (!ofNumber.trim() || !Number.isFinite(parseFloat(ofNumber))) return "Enter a numeric value.";
+    return null;
+  }, [percent, ofNumber]);
+
+  const percentChangeError = useMemo(() => {
+    const o = parseFloat(oldValue);
+    if (!oldValue.trim() || !Number.isFinite(o) || o === 0) return "Enter an old value that isn't 0.";
+    if (!newValue.trim() || !Number.isFinite(parseFloat(newValue))) return "Enter a numeric new value.";
+    return null;
+  }, [oldValue, newValue]);
+
+  const whatPercentError = useMemo(() => {
+    const whole = parseFloat(wholeValue);
+    if (!wholeValue.trim() || !Number.isFinite(whole) || whole === 0) return "Enter a Y value that isn't 0.";
+    if (!partValue.trim() || !Number.isFinite(parseFloat(partValue))) return "Enter a numeric X value.";
+    return null;
+  }, [partValue, wholeValue]);
 
   const percentOf = useMemo(() => {
     const p = parseFloat(percent);
@@ -53,36 +74,45 @@ export default function PercentagePage() {
           <div className="space-y-5">
             <h3 className="text-sm font-semibold text-neutral-500 dark:text-neutral-400">What is X% of Y?</h3>
             <div className="flex gap-3">
-              <Field label="Percent" suffix="%" value={percent} onChange={(e) => setPercent(e.target.value)} className={style.ring} />
-              <Field label="Of number" value={ofNumber} onChange={(e) => setOfNumber(e.target.value)} className={style.ring} />
+              <Field label="Percent" suffix="%" value={percent} onChange={(e) => setPercent(e.target.value)} className={style.ring} aria-invalid={!!percentOfError} />
+              <Field label="Of number" value={ofNumber} onChange={(e) => setOfNumber(e.target.value)} className={style.ring} aria-invalid={!!percentOfError} />
             </div>
           </div>
-          <ResultPanel gradient={style.gradient} stats={[{ label: "Result", value: fmt(percentOf), primary: true }]} />
+          {percentOfError ? (
+            <ErrorMessage>{percentOfError}</ErrorMessage>
+          ) : (
+            <ResultPanel gradient={style.gradient} stats={[{ label: "Result", value: fmt(percentOf), primary: true }]} />
+          )}
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="space-y-5">
             <h3 className="text-sm font-semibold text-neutral-500 dark:text-neutral-400">Percent change</h3>
             <div className="flex gap-3">
-              <Field label="Old value" value={oldValue} onChange={(e) => setOldValue(e.target.value)} className={style.ring} />
-              <Field label="New value" value={newValue} onChange={(e) => setNewValue(e.target.value)} className={style.ring} />
+              <Field label="Old value" value={oldValue} onChange={(e) => setOldValue(e.target.value)} className={style.ring} aria-invalid={!!percentChangeError} />
+              <Field label="New value" value={newValue} onChange={(e) => setNewValue(e.target.value)} className={style.ring} aria-invalid={!!percentChangeError} />
             </div>
           </div>
-          <ResultPanel
-            gradient={style.gradient}
-            stats={[{ label: "Change", value: fmt(percentChange, "%"), primary: true }]}
-          />
+          {percentChangeError ? (
+            <ErrorMessage>{percentChangeError}</ErrorMessage>
+          ) : (
+            <ResultPanel gradient={style.gradient} stats={[{ label: "Change", value: fmt(percentChange, "%"), primary: true }]} />
+          )}
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="space-y-5">
             <h3 className="text-sm font-semibold text-neutral-500 dark:text-neutral-400">X is what percent of Y?</h3>
             <div className="flex gap-3">
-              <Field label="X" value={partValue} onChange={(e) => setPartValue(e.target.value)} className={style.ring} />
-              <Field label="Y" value={wholeValue} onChange={(e) => setWholeValue(e.target.value)} className={style.ring} />
+              <Field label="X" value={partValue} onChange={(e) => setPartValue(e.target.value)} className={style.ring} aria-invalid={!!whatPercentError} />
+              <Field label="Y" value={wholeValue} onChange={(e) => setWholeValue(e.target.value)} className={style.ring} aria-invalid={!!whatPercentError} />
             </div>
           </div>
-          <ResultPanel gradient={style.gradient} stats={[{ label: "Result", value: fmt(whatPercent, "%"), primary: true }]} />
+          {whatPercentError ? (
+            <ErrorMessage>{whatPercentError}</ErrorMessage>
+          ) : (
+            <ResultPanel gradient={style.gradient} stats={[{ label: "Result", value: fmt(whatPercent, "%"), primary: true }]} />
+          )}
         </div>
       </div>
     </CalculatorShell>

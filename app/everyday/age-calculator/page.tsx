@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { Field } from "@/components/Field";
 import { ResultPanel } from "@/components/ResultPanel";
+import { ErrorMessage } from "@/components/ErrorMessage";
 import { domainStyles } from "@/lib/domain-styles";
 import { findCalculator } from "@/lib/domains";
 
@@ -17,6 +18,15 @@ function todayISO() {
 export default function AgeCalculatorPage() {
   const [birthDate, setBirthDate] = useState("2000-01-01");
   const [onDate, setOnDate] = useState(todayISO());
+
+  const error = useMemo(() => {
+    const birth = new Date(birthDate);
+    const target = new Date(onDate);
+    if (!birthDate || isNaN(birth.getTime())) return "Enter a valid date of birth.";
+    if (!onDate || isNaN(target.getTime())) return "Enter a valid 'as of' date.";
+    if (birth > target) return "Date of birth must be before the 'as of' date.";
+    return null;
+  }, [birthDate, onDate]);
 
   const { years, months, days, totalDays } = useMemo(() => {
     const birth = new Date(birthDate);
@@ -55,22 +65,34 @@ export default function AgeCalculatorPage() {
             value={birthDate}
             onChange={(e) => setBirthDate(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
-          <Field label="As of date" type="date" value={onDate} onChange={(e) => setOnDate(e.target.value)} className={style.ring} />
+          <Field
+            label="As of date"
+            type="date"
+            value={onDate}
+            onChange={(e) => setOnDate(e.target.value)}
+            className={style.ring}
+            aria-invalid={!!error}
+          />
         </div>
 
         <div className="flex flex-col justify-center">
-          <ResultPanel
-            gradient={style.gradient}
-            stats={[
-              {
-                label: "Age",
-                value: Number.isFinite(years) ? `${years}y ${months}m ${days}d` : "—",
-                primary: true,
-              },
-              { label: "Total days lived", value: Number.isFinite(totalDays) ? totalDays.toLocaleString() : "—" },
-            ]}
-          />
+          {error ? (
+            <ErrorMessage>{error}</ErrorMessage>
+          ) : (
+            <ResultPanel
+              gradient={style.gradient}
+              stats={[
+                {
+                  label: "Age",
+                  value: Number.isFinite(years) ? `${years}y ${months}m ${days}d` : "—",
+                  primary: true,
+                },
+                { label: "Total days lived", value: Number.isFinite(totalDays) ? totalDays.toLocaleString() : "—" },
+              ]}
+            />
+          )}
         </div>
       </div>
     </CalculatorShell>

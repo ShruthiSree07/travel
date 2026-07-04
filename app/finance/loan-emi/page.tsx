@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { Field } from "@/components/Field";
 import { ResultPanel } from "@/components/ResultPanel";
+import { ErrorMessage } from "@/components/ErrorMessage";
 import { domainStyles } from "@/lib/domain-styles";
 import { findCalculator } from "@/lib/domains";
 
@@ -19,6 +20,16 @@ export default function LoanEmiPage() {
   const [principal, setPrincipal] = useState("250000");
   const [rate, setRate] = useState("6.5");
   const [years, setYears] = useState("20");
+
+  const error = useMemo(() => {
+    const p = parseFloat(principal);
+    const annualRate = parseFloat(rate);
+    const y = parseFloat(years);
+    if (!principal.trim() || !Number.isFinite(p) || p <= 0) return "Enter a loan amount greater than 0.";
+    if (!rate.trim() || !Number.isFinite(annualRate) || annualRate < 0) return "Enter an interest rate of 0 or more.";
+    if (!years.trim() || !Number.isFinite(y) || y <= 0) return "Enter a loan term greater than 0 years.";
+    return null;
+  }, [principal, rate, years]);
 
   const { emi, totalPayment, totalInterest } = useMemo(() => {
     const p = parseFloat(principal);
@@ -46,6 +57,7 @@ export default function LoanEmiPage() {
             value={principal}
             onChange={(e) => setPrincipal(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
           <Field
             label="Annual interest rate"
@@ -53,6 +65,7 @@ export default function LoanEmiPage() {
             value={rate}
             onChange={(e) => setRate(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
           <Field
             label="Loan term"
@@ -60,18 +73,23 @@ export default function LoanEmiPage() {
             value={years}
             onChange={(e) => setYears(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
         </div>
 
         <div className="flex flex-col justify-center">
-          <ResultPanel
-            gradient={style.gradient}
-            stats={[
-              { label: "Monthly payment", value: `$${formatCurrency(emi)}`, primary: true },
-              { label: "Total payment", value: `$${formatCurrency(totalPayment)}` },
-              { label: "Total interest", value: `$${formatCurrency(totalInterest)}` },
-            ]}
-          />
+          {error ? (
+            <ErrorMessage>{error}</ErrorMessage>
+          ) : (
+            <ResultPanel
+              gradient={style.gradient}
+              stats={[
+                { label: "Monthly payment", value: `$${formatCurrency(emi)}`, primary: true },
+                { label: "Total payment", value: `$${formatCurrency(totalPayment)}` },
+                { label: "Total interest", value: `$${formatCurrency(totalInterest)}` },
+              ]}
+            />
+          )}
         </div>
       </div>
     </CalculatorShell>

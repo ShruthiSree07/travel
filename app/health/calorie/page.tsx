@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { Field, Select } from "@/components/Field";
 import { ResultPanel } from "@/components/ResultPanel";
+import { ErrorMessage } from "@/components/ErrorMessage";
 import { domainStyles } from "@/lib/domain-styles";
 import { findCalculator } from "@/lib/domains";
 
@@ -25,6 +26,16 @@ export default function CaloriePage() {
   const [height, setHeight] = useState("165");
   const [activity, setActivity] = useState("Light (1-3 days/week)");
 
+  const error = useMemo(() => {
+    const a = parseFloat(age);
+    const w = parseFloat(weight);
+    const h = parseFloat(height);
+    if (!age.trim() || !Number.isFinite(a) || a <= 0) return "Enter an age greater than 0.";
+    if (!weight.trim() || !Number.isFinite(w) || w <= 0) return "Enter a weight greater than 0.";
+    if (!height.trim() || !Number.isFinite(h) || h <= 0) return "Enter a height greater than 0.";
+    return null;
+  }, [age, weight, height]);
+
   const { bmr, tdee } = useMemo(() => {
     const a = parseFloat(age);
     const w = parseFloat(weight);
@@ -45,9 +56,9 @@ export default function CaloriePage() {
             <option>Female</option>
             <option>Male</option>
           </Select>
-          <Field label="Age" suffix="years" value={age} onChange={(e) => setAge(e.target.value)} className={style.ring} />
-          <Field label="Weight" suffix="kg" value={weight} onChange={(e) => setWeight(e.target.value)} className={style.ring} />
-          <Field label="Height" suffix="cm" value={height} onChange={(e) => setHeight(e.target.value)} className={style.ring} />
+          <Field label="Age" suffix="years" value={age} onChange={(e) => setAge(e.target.value)} className={style.ring} aria-invalid={!!error} />
+          <Field label="Weight" suffix="kg" value={weight} onChange={(e) => setWeight(e.target.value)} className={style.ring} aria-invalid={!!error} />
+          <Field label="Height" suffix="cm" value={height} onChange={(e) => setHeight(e.target.value)} className={style.ring} aria-invalid={!!error} />
           <Select label="Activity level" value={activity} onChange={(e) => setActivity(e.target.value)} className={style.ring}>
             {Object.keys(ACTIVITY_MULTIPLIERS).map((a) => (
               <option key={a} value={a}>
@@ -58,17 +69,21 @@ export default function CaloriePage() {
         </div>
 
         <div className="flex flex-col justify-center">
-          <ResultPanel
-            gradient={style.gradient}
-            stats={[
-              {
-                label: "Daily calories (TDEE)",
-                value: Number.isFinite(tdee) ? `${Math.round(tdee)} kcal` : "—",
-                primary: true,
-              },
-              { label: "Base metabolic rate (BMR)", value: Number.isFinite(bmr) ? `${Math.round(bmr)} kcal` : "—" },
-            ]}
-          />
+          {error ? (
+            <ErrorMessage>{error}</ErrorMessage>
+          ) : (
+            <ResultPanel
+              gradient={style.gradient}
+              stats={[
+                {
+                  label: "Daily calories (TDEE)",
+                  value: Number.isFinite(tdee) ? `${Math.round(tdee)} kcal` : "—",
+                  primary: true,
+                },
+                { label: "Base metabolic rate (BMR)", value: Number.isFinite(bmr) ? `${Math.round(bmr)} kcal` : "—" },
+              ]}
+            />
+          )}
         </div>
       </div>
     </CalculatorShell>

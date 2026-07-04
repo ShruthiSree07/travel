@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { Field, Select } from "@/components/Field";
 import { ResultPanel } from "@/components/ResultPanel";
+import { ErrorMessage } from "@/components/ErrorMessage";
 import { domainStyles } from "@/lib/domain-styles";
 import { findCalculator } from "@/lib/domains";
 
@@ -61,6 +62,11 @@ export default function UnitConverterPage() {
     setToUnit(names[1] ?? names[0]);
   }
 
+  const error = useMemo(() => {
+    if (!amount.trim() || !Number.isFinite(parseFloat(amount))) return "Enter a numeric amount to convert.";
+    return null;
+  }, [amount]);
+
   const result = useMemo(() => {
     const value = parseFloat(amount);
     if (!Number.isFinite(value)) return NaN;
@@ -78,7 +84,7 @@ export default function UnitConverterPage() {
             <option>Weight</option>
             <option>Temperature</option>
           </Select>
-          <Field label="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} className={style.ring} />
+          <Field label="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} className={style.ring} aria-invalid={!!error} />
           <Select label="From" value={fromUnit} onChange={(e) => setFromUnit(e.target.value)} className={style.ring}>
             {unitNames.map((u) => (
               <option key={u} value={u}>
@@ -96,16 +102,20 @@ export default function UnitConverterPage() {
         </div>
 
         <div className="flex flex-col justify-center">
-          <ResultPanel
-            gradient={style.gradient}
-            stats={[
-              {
-                label: "Result",
-                value: Number.isFinite(result) ? `${result.toLocaleString(undefined, { maximumFractionDigits: 4 })} ${toUnit}` : "—",
-                primary: true,
-              },
-            ]}
-          />
+          {error ? (
+            <ErrorMessage>{error}</ErrorMessage>
+          ) : (
+            <ResultPanel
+              gradient={style.gradient}
+              stats={[
+                {
+                  label: "Result",
+                  value: Number.isFinite(result) ? `${result.toLocaleString(undefined, { maximumFractionDigits: 4 })} ${toUnit}` : "—",
+                  primary: true,
+                },
+              ]}
+            />
+          )}
         </div>
       </div>
     </CalculatorShell>

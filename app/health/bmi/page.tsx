@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { Field, Select } from "@/components/Field";
 import { ResultPanel } from "@/components/ResultPanel";
+import { ErrorMessage } from "@/components/ErrorMessage";
 import { domainStyles } from "@/lib/domain-styles";
 import { findCalculator } from "@/lib/domains";
 
@@ -22,6 +23,14 @@ export default function BmiPage() {
   const [units, setUnits] = useState("Metric (kg, cm)");
   const [weight, setWeight] = useState("70");
   const [height, setHeight] = useState("175");
+
+  const error = useMemo(() => {
+    const w = parseFloat(weight);
+    const h = parseFloat(height);
+    if (!weight.trim() || !Number.isFinite(w) || w <= 0) return "Enter a weight greater than 0.";
+    if (!height.trim() || !Number.isFinite(h) || h <= 0) return "Enter a height greater than 0.";
+    return null;
+  }, [weight, height]);
 
   const bmi = useMemo(() => {
     const w = parseFloat(weight);
@@ -49,6 +58,7 @@ export default function BmiPage() {
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
           <Field
             label="Height"
@@ -56,17 +66,22 @@ export default function BmiPage() {
             value={height}
             onChange={(e) => setHeight(e.target.value)}
             className={style.ring}
+            aria-invalid={!!error}
           />
         </div>
 
         <div className="flex flex-col justify-center">
-          <ResultPanel
-            gradient={style.gradient}
-            stats={[
-              { label: "Your BMI", value: Number.isFinite(bmi) ? bmi.toFixed(1) : "—", primary: true },
-              { label: "Category", value: bmiCategory(bmi) },
-            ]}
-          />
+          {error ? (
+            <ErrorMessage>{error}</ErrorMessage>
+          ) : (
+            <ResultPanel
+              gradient={style.gradient}
+              stats={[
+                { label: "Your BMI", value: Number.isFinite(bmi) ? bmi.toFixed(1) : "—", primary: true },
+                { label: "Category", value: bmiCategory(bmi) },
+              ]}
+            />
+          )}
         </div>
       </div>
     </CalculatorShell>
