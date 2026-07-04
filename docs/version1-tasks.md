@@ -5,7 +5,7 @@ Scope: the 11 "Quick win" features from the [competitive audit & roadmap](https:
 ## Progress
 
 ```
-[█████████░░░░░░░░░░░] 45% — 5 / 11 tasks done
+[██████████░░░░░░░░░░] 55% — 6 / 11 tasks done
 ```
 
 ## Tasks
@@ -17,7 +17,7 @@ Scope: the 11 "Quick win" features from the [competitive audit & roadmap](https:
 | 3 | Per-page SEO metadata + Open Graph | 3.1 ✅ Unique `metadata` per calculator (split into server `page.tsx` + client component) · 3.2 ✅ Open Graph + Twitter card tags · 3.3 ✅ Canonical URLs via `metadataBase` | ✅ Done |
 | 4 | Privacy-first trust messaging | 4.1 ✅ Trust line moved to shared layout footer — appears on every page, not just home | ✅ Done |
 | 5 | Search bar for calculators | 5.1 ✅ Homepage search input filtering by name/keyword · 5.2 ✅ Empty-state messaging · 5.3 ✅ Keyboard accessible (native input + clear button) | ✅ Done |
-| 6 | PWA manifest + installable icons | 6.1 `manifest.json` (name, icons 192/512, theme_color, standalone) · 6.2 Icon assets · 6.3 Link manifest + theme-color meta in layout | ⬜ Not started |
+| 6 | PWA manifest + installable icons | 6.1 ✅ `app/manifest.ts` (name, icons 192/512/maskable, theme_color, standalone) · 6.2 ✅ Generated icon PNGs (192, 512, maskable, apple-touch) · 6.3 ✅ Linked manifest + theme-color + icons in layout | ✅ Done |
 | 7 | Manual dark / light toggle | 7.1 Toggle control in header · 7.2 Persist choice in localStorage + `data-theme` attribute · 7.3 Verify Tailwind dark: classes follow manual override | ⬜ Not started |
 | 8 | JSON-LD structured data | 8.1 Site-wide `SoftwareApplication` schema · 8.2 Per-calculator structured data | ⬜ Not started |
 | 9 | Privacy-respecting analytics | 9.1 Add Vercel Analytics package · 9.2 Verify events in production | ⬜ Not started |
