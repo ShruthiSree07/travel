@@ -59,6 +59,9 @@ export default function RootLayout({
         <main id="main-content" className="flex flex-1 flex-col">
           {children}
         </main>
+        <footer className="border-t border-neutral-200/80 py-6 text-center text-sm text-neutral-400 dark:border-neutral-800/80 dark:text-neutral-600">
+          No sign-up · No tracking · Nothing stored — every calculation runs in your browser.
+        </footer>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ Scope: the 11 "Quick win" features from the [competitive audit & roadmap](https:
 ## Progress
 
 ```
-[█████░░░░░░░░░░░░░░░] 27% — 3 / 11 tasks done
+[███████░░░░░░░░░░░░░] 36% — 4 / 11 tasks done
 ```
 
 ## Tasks
@@ -15,7 +15,7 @@ Scope: the 11 "Quick win" features from the [competitive audit & roadmap](https:
 | 1 | Sitemap + robots.txt | 1.1 ✅ `app/sitemap.ts` listing all calculator routes · 1.2 ✅ `app/robots.ts` | ✅ Done |
 | 2 | Accessible labels, focus & error states | 2.1 ✅ Visible focus-ring styles (global `:focus-visible` outline + per-domain rings) · 2.2 ✅ Accessible inline error messaging (`role="alert"`) on all 8 calculators · 2.3 ✅ Audited — labels already wrap inputs (valid implicit association) · 2.4 ✅ Skip-to-content link | ✅ Done |
 | 3 | Per-page SEO metadata + Open Graph | 3.1 ✅ Unique `metadata` per calculator (split into server `page.tsx` + client component) · 3.2 ✅ Open Graph + Twitter card tags · 3.3 ✅ Canonical URLs via `metadataBase` | ✅ Done |
-| 4 | Privacy-first trust messaging | 4.1 Trust line in footer ("no sign-up, no tracking, nothing stored") | ⬜ Not started |
+| 4 | Privacy-first trust messaging | 4.1 ✅ Trust line moved to shared layout footer — appears on every page, not just home | ✅ Done |
 | 5 | Search bar for calculators | 5.1 Homepage search input filtering by name/keyword · 5.2 Empty-state messaging · 5.3 Keyboard accessible | ⬜ Not started |
 | 6 | PWA manifest + installable icons | 6.1 `manifest.json` (name, icons 192/512, theme_color, standalone) · 6.2 Icon assets · 6.3 Link manifest + theme-color meta in layout | ⬜ Not started |
 | 7 | Manual dark / light toggle | 7.1 Toggle control in header · 7.2 Persist choice in localStorage + `data-theme` attribute · 7.3 Verify Tailwind dark: classes follow manual override | ⬜ Not started |

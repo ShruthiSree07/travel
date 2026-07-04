@@ -57,10 +57,6 @@ export default function Home() {
           );
         })}
       </div>
-
-      <footer className="mt-20 text-center text-sm text-neutral-400 dark:text-neutral-600">
-        Built with Next.js · No sign-up, no data stored.
-      </footer>
     </div>
   );
 }
