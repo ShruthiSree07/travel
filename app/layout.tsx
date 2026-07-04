@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Calculator } from "lucide-react";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,9 +16,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CalcVerse — Every calculator, one app",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "CalcVerse — Every calculator, one app",
+    template: "%s",
+  },
   description:
     "Finance, health, math, and everyday calculators in one fast, friendly app. No sign-up required.",
+  openGraph: {
+    siteName: "CalcVerse",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
